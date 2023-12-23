@@ -159,7 +159,7 @@
                 'date': date,
                 'icontent': content
             };
-            await addDoc(collection(db, "albums"), doc); // 카드를 붙임 - addDoc
+            await addDoc(collection(db, "albums"), doc); // 카드의 내용 정보를 DB에 보내주는 것 - addDoc
 
             // 저장했을 때 저장완료 알람이 뜨고 초기화면으로 reload하기
             alert('저장 완료!')
