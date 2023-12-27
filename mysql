@@ -1,0 +1,16 @@
+select cuisine_type, -- 아래 괄호()로 묶어준 곳과 다르게 a. 은 생략해도 된다. (괄호 안에서만 적용되기 때문)
+                     -- 혹은 t.cuisine_type으로 적어도 된다.
+       sum(price) "원래 가격",
+       sum(price)-sum(discount_price) "할인 적용 가격",
+       sum(discount_price) "할인 가격" 
+from 
+(
+select a.cuisine_type,
+       a.price,
+       a.price*((b.age-50)*0.005) discount_price
+from food_orders a inner join customers b on a.customer_id=b.customer_id -- 공통 컬럼 붙여주기
+where b.age>=50 -- 50세 이상만 뽑겠다~
+) t
+group by 1 -- 범주별로 sum해준 것이기 때문에 1
+order by 4 desc -- 할인 가격이 큰 순서대로 정렬하기 위해 4번째 컬럼을 사용하고 내림차순(desc)를 붙여줌
+                -- 혹은 확실하게 하고 싶다면 명칭 자체를 적어주어도 됨 : order by sum(discount_price) desc
